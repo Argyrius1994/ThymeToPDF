@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+
+    <title>Service Agreement</title>
+
+    <style>
+        body {
+            font-family: "Times New Roman", serif;
+            font-size: 12px;
+            line-height: 1.5;
+            margin: 40px;
+            color: #000;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 16px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 5px;
+        }
+
+        .clause {
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+
+        /* Checkbox clause layout */
+        .checkbox-clause {
+            display: table;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .checkbox {
+            display: table-cell;
+            width: 20px;
+            vertical-align: top;
+        }
+
+        .checkbox-box {
+            width: 12px;
+            height: 12px;
+            border: 1px solid #000;
+            margin-top: 3px;
+        }
+
+        .checkbox-text {
+            display: table-cell;
+            padding-left: 8px;
+        }
+
+        /* Signature section */
+        .signature-section {
+            margin-top: 50px;
+        }
+
+        .signature-row {
+            display: table;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .signature-block {
+            display: table-cell;
+            width: 50%;
+            padding-right: 40px;
+            vertical-align: top;
+        }
+
+        .signature-line {
+            border-bottom: 1px solid #000;
+            height: 30px;
+            margin-bottom: 5px;
+        }
+
+        .signature-label {
+            font-size: 11px;
+        }
+
+        .signature-date {
+            margin-top: 15px;
+        }
+
+        @media print {
+            body {
+                margin: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h1>Service Agreement</h1>
+
+<p class="clause">
+    This Service Agreement ("Agreement") is entered into on
+    <strong th:text="${contractDate}">[Date]</strong>
+    between <strong th:text="${clientName}">[Client Name]</strong>
+    ("Client") and <strong th:text="${providerName}">[Provider]</strong>
+    ("Service Provider").
+</p>
+
+<div class="section-title">1. Terms and Conditions</div>
+
+<div class="clause">
+    The Client agrees to the terms and conditions set forth in this Agreement,
+    including all obligations, fees, and responsibilities described herein.
+</div>
+
+<table style="width:100%; border-collapse:collapse; margin-bottom:15px;">
+    <tr>
+        <td style="width:33%; vertical-align:top;">
+            <table>
+                <tr>
+                    <td style="width:18px;">
+                        <div style="width:12px;height:12px;border:1px solid #000;"></div>
+                    </td>
+                    <td style="padding-left:6px;">
+                        I have read the terms
+                    </td>
+                </tr>
+            </table>
+        </td>
+
+        <td style="width:33%; vertical-align:top;">
+            <table>
+                <tr>
+                    <td style="width:18px;">
+                        <div style="width:12px;height:12px;border:1px solid #000;"></div>
+                    </td>
+                    <td style="padding-left:6px;">
+                        I consent to data processing
+                    </td>
+                </tr>
+            </table>
+        </td>
+
+        <td style="width:33%; vertical-align:top;">
+            <table>
+                <tr>
+                    <td style="width:18px;">
+                        <div style="width:12px;height:12px;border:1px solid #000;"></div>
+                    </td>
+                    <td style="padding-left:6px;">
+                        Agreement is binding
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<!-- Checkbox Clauses -->
+<div class="checkbox-clause">
+    <div class="checkbox">
+        <div class="checkbox-box"></div>
+    </div>
+    <div class="checkbox-text">
+        I acknowledge that I have read and understood the full terms of this Agreement.
+    </div>
+</div>
+
+<div class="checkbox-clause">
+    <div class="checkbox">
+        <div class="checkbox-box"></div>
+    </div>
+    <div class="checkbox-text">
+        I consent to the processing of my personal data in accordance with applicable laws.
+    </div>
+</div>
+
+<div class="checkbox-clause">
+    <div class="checkbox">
+        <div class="checkbox-box"></div>
+    </div>
+    <div class="checkbox-text">
+        I agree that this Agreement is legally binding upon execution.
+    </div>
+</div>
+
+<div class="section-title">2. Signatures</div>
+
+<div class="signature-section">
+
+    <div class="signature-row">
+        <div class="signature-block">
+            <div class="signature-line"></div>
+            <div class="signature-label">
+                Client Signature<br/>
+                <span th:text="${clientName}">Client Name</span>
+            </div>
+
+            <div class="signature-date">
+                Date: ______________________
+            </div>
+        </div>
+
+        <div class="signature-block">
+            <div class="signature-line"></div>
+            <div class="signature-label">
+                Service Provider Signature<br/>
+                <span th:text="${providerName}">Provider Name</span>
+            </div>
+
+            <div class="signature-date">
+                Date: ______________________
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
