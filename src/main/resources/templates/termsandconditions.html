@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${reportData.newspaperName}">Newspaper POC</title>
+    <style>
+        /* 1. PHYSICAL PAGE SETUP */
+        @page {
+            size: A4;
+            /* Margin-top must accommodate the header height */
+            margin: 45mm 20mm 25mm 20mm;
+
+            @top-center {
+                content: element(headerElement);
+            }
+            @bottom-center {
+                content: element(footerElement);
+            }
+        }
+
+        /* 2. REPEATING HEADER AND FOOTER */
+        #header-layout {
+            position: running(headerElement);
+            width: 100%;
+            text-align: center;
+            border-bottom: 3px double #000;
+            padding-bottom: 5mm;
+        }
+
+        #header-layout h1 {
+            font-family: 'Times New Roman', serif;
+            font-size: 34pt;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .header-meta {
+            font-size: 10pt;
+            margin-top: 5pt;
+            font-family: 'Georgia', serif;
+        }
+
+        #footer-layout {
+            position: running(footerElement);
+            width: 100%;
+            border-top: 1px solid #000;
+            padding-top: 2mm;
+            font-family: 'Georgia', serif;
+            font-size: 9pt;
+        }
+
+        /* 3. BODY AND LAYOUT */
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.4;
+            margin: 0;
+            padding: 0;
+            color: #1a1a1a;
+        }
+
+        /* 4. THE PRIMARY HEADLINE (Outside Columns) */
+        .main-title-container {
+            width: 100%;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 15pt;
+            padding-bottom: 10pt;
+        }
+
+        .main-headline {
+            font-family: 'Times New Roman', serif;
+            font-size: 30pt;
+            margin: 0;
+            line-height: 1.1;
+            text-align: left;
+        }
+
+        /* 5. THE COLUMN ENGINE */
+        .content-wrapper {
+            display: block;
+            width: 100%;
+            column-count: 2;
+            column-gap: 10mm;
+            column-rule: 1px solid #dddddd;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        .sub-headline {
+            font-size: 18pt;
+            margin: 12pt 0 6pt 0;
+            line-height: 1.2;
+            break-after: avoid; /* Prevents headline orphans */
+            color: #333;
+            font-family: 'Times New Roman', serif;
+        }
+
+        p {
+            margin: 0 0 10pt 0;
+            font-size: 11pt;
+        }
+
+<!--        /* Page Numbering Utility */-->
+        .page-number::after {
+            content: "Page " counter(page) " of " counter(pages);
+        }
+    </style>
+</head>
+<body>
+
+<div id="header-layout">
+    <h1 th:text="${reportData.newspaperName}">LEGAL GAZETTE</h1>
+    <div class="header-meta">
+        <span th:text="${reportData.currentDate}">14-01-2026</span>
+        <span style="margin: 0 15pt;">|</span>
+        <span th:text="${reportData.editionName}">Terms &amp; Conditions v1.0</span>
+    </div>
+</div>
+
+<div id="footer-layout">
+    <table style="width: 100%; border: none;">
+        <tr>
+            <td style="text-align: left;">© 2026 Newspaper POC</td>
+            <td style="text-align: right;" class="page-number"></td>
+        </tr>
+    </table>
+</div>
+
+<div class="main-title-container">
+    <h1 class="main-headline" th:text="${reportData.pages[0].headline}">
+        Main Title Spanning Full Width
+    </h1>
+</div>
+
+<div class="content-wrapper">
+    <div th:each="para, iterStat : ${reportData.pages}">
+
+        <h2 th:if="${!iterStat.first && para.headline != null}"
+            class="sub-headline"
+            th:text="${para.headline}">
+            Secondary Headline
+        </h2>
+
+        <p th:text="${para.mainText}">Article content goes here...</p>
+    </div>
+</div>
+
+</body>
+</html>
