@@ -5,12 +5,17 @@ import bank.of.cyprus.demo.model.InvoiceItem;
 import bank.of.cyprus.demo.model.PageEntry;
 import bank.of.cyprus.demo.model.ReportData;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StreamUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -101,9 +106,26 @@ public class PdfService {
         context.setVariable("reportData", report);
         
         // 4. Process the HTML template
-        String html = templateEngine.process("termsandconditions", context);
+//        String html = templateEngine.process("termsandconditions", context);
         
         // 5. Build the PDF
+
+        try {
+            ClassPathResource imgRes = new ClassPathResource("static/images/Header.png");
+            try (InputStream is = imgRes.getInputStream()) {
+                byte[] bytes = StreamUtils.copyToByteArray(is);
+                String base64 = Base64.getEncoder().encodeToString(bytes);
+                String dataUrl = "data:image/png;base64," + base64;
+                context.setVariable("headerImage", dataUrl);
+            }
+        } catch (IOException e) {
+            // fallback: leave headerImage null or set a placeholder
+            context.setVariable("headerImage", null);
+        }
+        
+        String html = templateEngine.process("termsandconditions", context);
+        
+        // ... existing HTML-to-PDF conversion logic (returning PDF bytes) ...
         try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
             PdfRendererBuilder builder = new PdfRendererBuilder();
             builder.useFastMode();
@@ -111,7 +133,7 @@ public class PdfService {
             builder.withHtmlContent(html, null);
             builder.toStream(os);
             builder.run();
-            
+
             return os.toByteArray();
         } catch (Exception e) {
             throw new RuntimeException("Failed to generate Terms PDF", e);

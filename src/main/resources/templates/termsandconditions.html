@@ -107,13 +107,16 @@
 </head>
 <body>
 
+<!--<div id="header-layout">-->
+<!--    <h1 th:text="${reportData.newspaperName}">LEGAL GAZETTE</h1>-->
+<!--    <div class="header-meta">-->
+<!--        <span th:text="${reportData.currentDate}">14-01-2026</span>-->
+<!--        <span style="margin: 0 15pt;">|</span>-->
+<!--        <span th:text="${reportData.editionName}">Terms &amp; Conditions v1.0</span>-->
+<!--    </div>-->
+<!--</div>-->
 <div id="header-layout">
-    <h1 th:text="${reportData.newspaperName}">LEGAL GAZETTE</h1>
-    <div class="header-meta">
-        <span th:text="${reportData.currentDate}">14-01-2026</span>
-        <span style="margin: 0 15pt;">|</span>
-        <span th:text="${reportData.editionName}">Terms &amp; Conditions v1.0</span>
-    </div>
+    <img th:src="${headerImage}" th:alt="${reportData.newspaperName}" alt="Header" />
 </div>
 
 <div id="footer-layout">
